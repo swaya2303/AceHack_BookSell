@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Books to Warehouse - Booksell</title>
+  <link rel="stylesheet" href="styles/postadstyle.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Footer Styles */
+    footer {
+        background-color: white;
+        padding: 2rem 0;
+        margin-top: 4rem;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+
+    .footer-section h3 {
+        color: var(--text-color);
+        margin-bottom: 1rem;
+    }
+
+    .footer-section a {
+        color: var(--text-color);
+        text-decoration: none;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+        
+        .books-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+        
+        .stat {
+            padding: 1rem;
+        }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">Booksell</div>
+        <div class="search-bar">
+          <form action="/search" method="get">
+            <input type="text" placeholder="Book Name / Author / Subject / Publisher" name="q">
+            <button type="submit"><i class="bi bi-search"></i></button>
+          </form>
+        </div>
+        <nav class="nav-menu">
+          <a href="/post-ad" class="sell-btn"><i class="bi bi-plus-lg"></i> Sell Books</a>
+          <a href="/cart" class="icon-btn"><i class="bi bi-cart2"></i></a>
+          <div class="account-dropdown">
+            <button class="profile-btn"><i class="bi bi-person"></i></button>
+            <div class="dropdown-content">
+              <div class="dropdown-section">
+                <a href="/login.html" class="login-link"><i class="bi bi-box-arrow-in-right"></i> Login/Sign up</a>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="/browse"><i class="bi bi-book"></i> Browse Books</a>
+              <a href="/profile.html"><i class="bi bi-person-circle"></i> My Profile</a>
+              <a href="/myads.html"><i class="bi bi-collection"></i> My Books</a>
+              <a href="/orders"><i class="bi bi-bag"></i> My Orders</a>
+              <a href="/selling-orders"><i class="bi bi-cash-stack"></i> My Selling Orders</a>
+              <a href="/chat.html"><i class="bi bi-chat-dots"></i> My Chat</a>
+              <a href="/cart.html"><i class="bi bi-cart3"></i> My Cart</a>
+              <a href="/wishlist"><i class="bi bi-heart"></i> Wishlist</a>
+              <a href="/how-it-works"><i class="bi bi-question-circle"></i> How it Works?</a>
+              <div class="dropdown-divider"></div>
+              <a href="/logout" class="logout-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>Submit Books to Warehouse</h1>
+        <p>Send your books in bulk and let us handle the selling process for you</p>
+      </div>
+
+      <div class="form-container">
+        <form id="warehouse-form" action="/warehouse-submit" method="POST" enctype="multipart/form-data">
+          <div class="form-section">
+            <h2>Book Details</h2>
+
+            <div class="form-group">
+              <label for="title">Book Title</label>
+              <input type="text" id="title" name="title" placeholder="Enter book title" required>
+            </div>
+
+            <div class="form-group">
+              <label for="author">Author <span class="optional">(Optional)</span></label>
+              <input type="text" id="author" name="author" placeholder="Enter author name">
+            </div>
+
+            <div class="form-group">
+              <label>Book Condition</label>
+              <div class="radio-group condition-group">
+                <label class="radio-label">
+                  <input type="radio" name="condition" value="excellent" required>
+                  <span class="radio-custom"></span> Excellent
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="condition" value="good">
+                  <span class="radio-custom"></span> Good
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="condition" value="fair">
+                  <span class="radio-custom"></span> Fair
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Upload Photos</label>
+              <div class="upload-container" id="upload-container">
+                <div class="upload-area" id="upload-area">
+                  <i class="bi bi-camera"></i>
+                  <p>UPLOAD IMAGES OF ALL THE LISTED BOOKS</p>
+                  <span>(Size: 15MB max each)</span>
+                  <input type="file" id="file-input" name="images[]" multiple accept="image/*" hidden>
+                </div>
+                <div class="image-preview" id="image-preview"></div>
+              </div>
+              <p class="upload-tip"><i class="bi bi-lightbulb"></i> Clear photos help us process your books faster!</p>
+            </div>
+
+            <div class="form-group">
+              <label for="price">Expected Price (₹)</label>
+              <input type="number" id="price" name="price" placeholder="Enter your expected price" required>
+              <p class="shipping-tip">Note: A commission OF 30% will be charged if the book is sold within it's first year.</p>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h2>Delivery Details</h2>
+
+            <div class="form-group pickup-fields" style="display: none;">
+              <label for="pickup_address">Pickup Address</label>
+              <textarea id="pickup_address" name="pickup_address" rows="4" placeholder="Enter full address for pickup"></textarea>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="submit-warehouse" class="submit-btn">Submit to Warehouse</button>
+            <p class="terms-text">By submitting, you agree to our <a href="/terms" target="_blank">Terms of Use</a> and <a href="/warehouse-policy" target="_blank">Warehouse Policy</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-column">
+          <h3>About Us</h3>
+          <ul>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+            <li><a href="/feedback">Leave Us Feedback</a></li>
+            <li><a href="/blog">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Useful Links</h3>
+          <ul>
+            <li><a href="/how-it-works">How it works?</a></li>
+            <li><a href="/teleport">Booksell Teleport</a></li>
+            <li><a href="/faq">Frequently Asked Questions</a></li>
+            <li><a href="/chat-guidelines">Chat Guidelines</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Stay Connected</h3>
+          <div class="social-links">
+            <a href="https://www.facebook.com/" target="_blank"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/" target="_blank"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.youtube.com/" target="_blank"><i class="bi bi-youtube"></i></a>
+            <a href="https://twitter.com/" target="_blank"><i class="bi bi-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-middle">
+        <div class="trust-feature">
+          <i class="bi bi-credit-card"></i>
+          <div>
+            <h4>Secure Payment</h4>
+            <p>100% Secure Online Transaction</p>
+          </div>
+        </div>
+        <div class="trust-feature">
+          <i class="bi bi-patch-check"></i>
+          <div>
+            <h4>Booksell Trust</h4>
+            <p>Money stored safely & transferred after buyer confirmation</p>
+          </div>
+        </div>
+        <div class="trust-feature">
+          <i class="bi bi-chat-dots"></i>
+          <div>
+            <h4>Customer Support</h4>
+            <p>Friendly customer support</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Booksell is a free platform where you can buy second hand books at very cheap prices. Well at Booksell, you can also sell used books online in India for actual cash. Buy used books online like college books, school books, reading books, much more near you.</p>
+        <div class="copyright">
+          <p>Copyright © 2025, <b>Booksell™</b> All Rights Reserved</p>
+          <div class="payment-methods">
+            <img src="https://cdn.shopify.com/shopifycloud/shopify/assets/payment_icons/visa-319d545c6fd255c9aad5eeaad21fd6f7f7b4fdbdb1a35ce83b89cca12a187f00.svg" alt="Visa">
+            <img src="https://cdn.shopify.com/shopifycloud/shopify/assets/payment_icons/master-173035bc8124581983d4efa50cf8626e8553c2b311353fbf67485f9c1a2b88d1.svg" alt="Mastercard">
+            <img src="https://cdn.shopify.com/shopifycloud/shopify/assets/payment_icons/rupay-8d8aeb20082f5e5f350dfc7da306220a6b40d53f4908114aa5734a2b5ba81af3.svg" alt="RuPay">
+            <img src="https://cdn.shopify.com/shopifycloud/shopify/assets/payment_icons/upi-colors-3e0ed6db1968f0c06c28f6f466b5c08a9f9ca61e8d8eaa9c3d9f5786e2c6a1e6.svg" alt="UPI">
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script/postadscript.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Selling Orders - BookSell</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        .orders-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .order-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order-details {
+            flex: 1;
+        }
+        .order-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn.accept { background-color: #2ecc71; color: white; }
+        .btn.reject { background-color: #e63946; color: white; }
+        .btn:disabled { background-color: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Same header as book-details.html -->
+    </header>
+
+    <main>
+        <div class="orders-container">
+            <h1>My Selling Orders</h1>
+            <div id="orders-list"></div>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Same footer as book-details.html -->
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const ordersList = document.getElementById('orders-list');
+
+            try {
+                const response = await fetch('/selling-orders');
+                if (!response.ok) throw new Error('Failed to fetch orders');
+                const orders = await response.json();
+
+                if (orders.length === 0) {
+                    ordersList.innerHTML = '<p>No pending orders.</p>';
+                    return;
+                }
+
+                orders.forEach(order => {
+                    const card = document.createElement('div');
+                    card.className = 'order-card';
+                    card.innerHTML = `
+                        <div class="order-details">
+                            <h3>${order.bookId.title}</h3>
+                            <p>Price: ₹${order.bookId.price}</p>
+                            <p>Buyer: ${order.buyerId.phone_email}</p>
+                            <p>Status: ${order.status}</p>
+                        </div>
+                        <div class="order-actions">
+                            <button class="btn accept" data-order-id="${order._id}" 
+                                ${order.status !== 'pending' ? 'disabled' : ''}>Accept</button>
+                            <button class="btn reject" data-order-id="${order._id}" 
+                                ${order.status !== 'pending' ? 'disabled' : ''}>Reject</button>
+                        </div>
+                    `;
+                    ordersList.appendChild(card);
+                });
+
+                // Add event listeners for accept/reject buttons
+                document.querySelectorAll('.btn.accept').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const orderId = btn.dataset.orderId;
+                        await handleOrderAction(orderId, 'accept', btn);
+                    });
+                });
+
+                document.querySelectorAll('.btn.reject').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const orderId = btn.dataset.orderId;
+                        await handleOrderAction(orderId, 'reject', btn);
+                    });
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                ordersList.innerHTML = `<p>Error loading orders: ${error.message}</p>`;
+            }
+        });
+
+        async function handleOrderAction(orderId, action, btn) {
+            try {
+                const response = await fetch(`/selling-orders/${action}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderId }),
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message);
+                    btn.closest('.order-card').querySelector('.order-details p:last-child').textContent = `Status: ${action}ed`;
+                    btn.disabled = true;
+                    btn.nextElementSibling.disabled = true; // Disable the other button
+                } else {
+                    alert(result.message || `Failed to ${action} order`);
+                }
+            } catch (error) {
+                console.error(`Error ${action}ing order:`, error);
+                alert(`Failed to ${action} order. Please try again.`);
+            }
+        }
+    </script>
+</body>
+</html>

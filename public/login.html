@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN/SIGNUP</title>
+    <link rel="stylesheet" href="styles/loginstyle.css">
+</head>
+<body>
+    <header>
+        <h1 class="heading">BookSell</h1>
+    </header>
+
+    <div class="container">
+        <div class="slider"></div>
+        <div class="btn">
+            <button class="login">Login</button>
+            <button class="signup">Signup</button>
+        </div>
+
+        <div class="form-section">
+            <!-- Login Form -->
+            <form class="login-box" method="POST">
+                <input type="email" name="phone_email" class="email ele" placeholder="youremail@email.com" required>
+                <input type="password" name="password" class="password ele" placeholder="password" required>
+                <button type="submit" class="clkbtn">Login</button>
+                <a href="/forgot-password.html">Forgot password?</a>
+            </form>
+
+            <!-- Signup Form -->
+            <form class="signup-box" method="POST">
+                <input type="email" name="phone_email" class="email ele" placeholder="youremail@email.com" required>
+                <input type="text" name="name" class="name ele" placeholder="Full name" required>
+                <input type="password" name="password" class="password ele" placeholder="Password" required>
+                <input type="password" name="confirm_password" class="password ele" placeholder="Confirm password" required>
+                <button type="submit" class="clkbtn">Signup</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script/loginscript.js"></script>
+</body>
+</html>

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | BookSwap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --dark-color: #333;
+            --light-color: #f4f4f4;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 15px;
+        }
+        
+        .checkout-container {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .checkout-items {
+            flex: 3;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        .checkout-summary {
+            flex: 2;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .item {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        
+        .item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-image {
+            width: 100px;
+            height: 140px;
+            object-fit: cover;
+            margin-right: 15px;
+            border-radius: 4px;
+        }
+        
+        .item-details {
+            flex: 1;
+        }
+        
+        .item-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .item-price {
+            font-size: 16px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .summary-row.total {
+            border-top: 2px solid #ddd;
+            border-bottom: none;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 4px;
+            margin-top: 15px;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .address-form {
+            margin-top: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        .section-title {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .payment-options {
+            margin-top: 20px;
+        }
+        
+        .payment-option {
+            margin-bottom: 10px;
+        }
+        
+        .message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .empty-cart i {
+            font-size: 60px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .checkout-container {
+                flex-direction: column;
+            }
+            
+            .checkout-summary {
+                position: static;
+                margin-top: 20px;
+            }
+            
+            .item {
+                flex-direction: column;
+            }
+            
+            .item-image {
+                width: 100%;
+                height: 200px;
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-group.col {
+                padding: 0;
+            }
+        }
+        
+        /* Small mobile screens */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .item-title {
+                font-size: 16px;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+        
+        /* Form row for side-by-side inputs */
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-group.col {
+            flex: 1;
+        }
+        
+        /* Back button */
+        .back-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .back-button i {
+            margin-right: 5px;
+        }
+        
+        /* Order confirmation styling */
+        #orderSuccess {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        #orderSuccess h2 {
+            margin-bottom: 10px;
+        }
+        
+        #orderSuccess i {
+            font-size: 50px;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to Homepage
+        </a>
+        
+        <h1 class="section-title">Checkout</h1>
+        
+        <div id="checkoutContainer">
+            <div class="checkout-container">
+                <div class="checkout-items">
+                    <h2>Your Order Items</h2>
+                    <div id="itemsList">
+                        <!-- Cart items will be displayed here -->
+                        <div class="empty-cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <p>Your cart is empty</p>
+                            <a href="/" class="btn" style="width: auto; display: inline-block; margin-top: 20px;">
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="checkout-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">₹0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span id="shipping">₹40.00</span>
+                    </div>
+                   
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span id="total">₹40.00</span>
+                    </div>
+                    
+                    <div class="payment-options">
+                        <h3>Payment Method</h3>
+                        <div class="payment-option">
+                            <input type="radio" id="cod" name="payment" value="cod" checked>
+                            <label for="cod">Cash on Delivery</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="upi" name="payment" value="upi">
+                            <label for="upi">UPI / GPay / PhonePe</label>
+                        </div>
+                        <button id="connectWallet" class="btn" style="background: #6c757d; margin-top: 10px;">Connect Aptos Wallet</button>
+                        <div class="payment-option">
+                            <input type="radio" id="aptos" name="payment" value="aptos">
+                            <label for="aptos">Aptos Wallet</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="card" name="payment" value="card">
+                            <label for="card">Credit/Debit Card</label>
+                        </div>
+                    </div>
+                    
+                    <button id="placeOrderBtn" class="btn">Place Order</button>
+                </div>
+            </div>
+<!--             
+            <div class="address-form">
+                <h2 class="section-title">Shipping Address</h2>
+                <form id="addressForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group col">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="city">City</label>
+                            <input type="text" id="city" class="form-control" required>
+                        </div>
+                        <div class="form-group col">
+                            <label for="state">State</label>
+                            <input type="text" id="state" class="form-control" required>
+                        </div>
+                        <div class="form-group col">
+                            <label for="zipcode">PIN Code</label>
+                            <input type="text" id="zipcode" class="form-control" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+         -->
+        <div id="orderSuccess">
+            <i class="fas fa-check-circle"></i>
+            <h2>Order Placed Successfully!</h2>
+            <p>Your order has been placed successfully. Thank you for shopping with us!</p>
+            <p>Order ID: <strong id="orderId">ORD123456</strong></p>
+            <a href="/" class="btn" style="width: auto; display: inline-block; margin-top: 20px;">
+                Continue Shopping
+            </a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@aptos-labs/aptos-sdk@latest/dist/index.global.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookId = urlParams.get('bookId');
+      
+        if (bookId) {
+          // Handle single book purchase from "Buy Now"
+          fetchBookDetails(bookId);
+        } else {
+          // Default behavior: fetch cart items
+          fetchCartItems();
+        }
+      
+        document.getElementById('placeOrderBtn').addEventListener('click', function() {
+          placeOrder(bookId);
+        });
+      });
+
+      
+      
+      async function fetchBookDetails(bookId) {
+        try {
+          const response = await fetch(`/api/book/${bookId}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch book details');
+          }
+      
+          const book = await response.json();
+          displayCartItems([book]); // Display single book as an array
+          calculateOrderSummary([book]);
+        } catch (error) {
+          console.error('Error fetching book details:', error);
+          document.getElementById('itemsList').innerHTML = `
+            <div class="empty-cart">
+              <i class="fas fa-shopping-cart"></i>
+              <p>Unable to load book details</p>
+            </div>`;
+        }
+      }
+      
+      async function fetchCartItems() {
+        try {
+          const response = await fetch('/api/cart');
+          if (!response.ok) {
+            throw new Error('Failed to fetch cart items');
+          }
+      
+          const cartItems = await response.json();
+          displayCartItems(cartItems);
+          calculateOrderSummary(cartItems);
+        } catch (error) {
+          console.error('Error fetching cart items:', error);
+        }
+      }
+      
+      function displayCartItems(items) {
+        const itemsList = document.getElementById('itemsList');
+      
+        if (!items || items.length === 0) {
+          return;
+        }
+      
+        itemsList.innerHTML = ''; // Clear empty cart message
+      
+        items.forEach(item => {
+          const itemElement = document.createElement('div');
+          itemElement.className = 'item';
+      
+          const imageSrc = item.images && item.images.length > 0 ? item.images[0] : '/api/placeholder/100/140';
+      
+          itemElement.innerHTML = `
+            <img src="${imageSrc}" alt="${item.title}" class="item-image">
+            <div class="item-details">
+              <h3 class="item-title">${item.title}</h3>
+              <p class="item-price">₹${item.price}</p>
+            </div>
+          `;
+      
+          itemsList.appendChild(itemElement);
+        });
+      }
+      
+      function calculateOrderSummary(items) {
+        if (!items || items.length === 0) {
+          return;
+        }
+      
+        const subtotal = items.reduce((total, item) => total + parseFloat(item.price), 0);
+        const shipping = 20;
+        
+        const total = subtotal + shipping;
+      
+        document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+        document.getElementById('shipping').textContent = `₹${shipping.toFixed(2)}`;
+        // document.getElementById('tax').textContent = `₹${tax.toFixed(2)}`;
+        document.getElementById('total').textContent = `₹${total.toFixed(2)}`;
+      }
+      
+      let userAddress = null;
+
+document.getElementById('connectWallet').addEventListener('click', async () => {
+    try {
+        if (!window.aptos) {
+            alert('Please install an Aptos wallet (e.g., Petra Wallet) to continue.');
+            return;
+        }
+        const response = await window.aptos.connect();
+        userAddress = response.address;
+        console.log('Connected with address:', userAddress);
+        alert('Wallet connected successfully!');
+    } catch (error) {
+        console.error('Error connecting wallet:', error);
+        alert('Failed to connect wallet. Please try again.');
+    }
+});
+
+async function placeOrder(bookId) {
+    const form = document.getElementById('addressForm');
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+    const formData = {
+        name: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        zipcode: document.getElementById('zipcode').value,
+        paymentMethod,
+        bookId: bookId || null,
+    };
+
+    if (paymentMethod === 'aptos') {
+        if (!window.aptos || !userAddress) {
+            alert('Please connect your Aptos wallet first.');
+            return;
+        }
+
+        try {
+            // Fetch book details
+            const response = await fetch(`/api/book/${bookId}`);
+            if (!response.ok) throw new Error('Book not found');
+            const book = await response.json();
+
+            // Use your fixed wallet address instead of seller's
+            const recipientAddress = "0x5a7b460fe18b1fdef5f80c06a2538deca1d53e9c8b42a47b0da09c51919c9361"; // Replace with your actual Aptos address
+
+            // Calculate amount in octas (1 APT = 100 INR, 1 APT = 10^8 octas)
+            const aptAmount = book.price / 100; // Convert INR to APT
+            const amountInOctas = Math.floor(aptAmount * 100000000).toString(); // Convert APT to octas
+
+            // Create transaction payload
+            const transaction = {
+                type: 'entry_function_payload',
+                function: '0x1::coin::transfer',
+                arguments: [recipientAddress, amountInOctas],
+                type_arguments: ['0x1::aptos_coin::AptosCoin'],
+            };
+
+            // Sign and submit transaction
+            const pendingTx = await window.aptos.signAndSubmitTransaction(transaction);
+            const txHash = pendingTx.hash;
+            console.log('Transaction hash:', txHash); // For debugging
+
+            // Wait for confirmation
+            const confirmed = await waitForTransactionConfirmation(txHash);
+            if (!confirmed) {
+                alert('Transaction failed or was not confirmed.');
+                return;
+            }
+
+            // Add txHash to formData
+            formData.txHash = txHash;
+
+            // Send order data to server
+            const orderResponse = await fetch('/api/place-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            const data = await orderResponse.json();
+
+            if (data.success) {
+                document.getElementById('orderId').textContent = data.orderId;
+                document.getElementById('checkoutContainer').style.display = 'none';
+                document.getElementById('orderSuccess').style.display = 'block';
+            } else {
+                alert(data.message || 'Failed to place order');
+            }
+        } catch (error) {
+            console.error('Error during Aptos payment:', error);
+            alert('Payment failed. Please try again.');
+        }
+    } else {
+        // Non-Aptos payment logic (unchanged)
+        fetch('/api/place-order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('orderId').textContent = data.orderId;
+                    document.getElementById('checkoutContainer').style.display = 'none';
+                    document.getElementById('orderSuccess').style.display = 'block';
+                } else {
+                    alert(data.message || 'Failed to place order');
+                }
+            })
+            .catch(error => {
+                console.error('Error placing order:', error);
+                alert('Failed to place order. Please try again.');
+            });
+    }
+}
+      </script>
+</body>
+</html>

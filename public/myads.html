@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Book Ads - BookSell</title>
+    <link rel="stylesheet" href="styles/myads.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">BookSell</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse</a>
+                <a href="post-ad.html">Sell</a>
+                <a href="myads.html" class="active">My Ads</a>
+            </div>
+            <div class="nav-actions">
+                <div class="account-dropdown">
+                    <button class="profile-btn"><i class="bi bi-person"></i></button>
+                    <div class="dropdown-content">
+                        <a href="/profile.html"><i class="bi bi-person-circle"></i> My Profile</a>
+                        <a href="/myads.html"><i class="bi bi-collection"></i> My Books</a>
+                        <a href="/orders"><i class="bi bi-bag"></i> My Orders</a>
+                        <a href="/chat.html"><i class="bi bi-chat-dots"></i> My Chat</a>
+                        <a href="/logout" class="logout-link"><i class="bi bi-box-arrow-right"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="my-ads-section">
+            <h1>My Book Ads</h1>
+            <div class="ads-stats">
+                <div class="stat">
+                    <i class="bi bi-book"></i>
+                    <span id="total-ads">0</span>
+                    <p>Total Ads</p>
+                </div>
+                <div class="stat">
+                    <i class="bi bi-eye"></i>
+                    <span id="total-views">0</span>
+                    <p>Total Views</p>
+                </div>
+                <div class="stat">
+                    <i class="bi bi-currency-rupee"></i>
+                    <span id="total-value">₹0</span>
+                    <p>Total Value</p>
+                </div>
+            </div>
+            <!-- Summary Metrics -->
+<div class="ads-summary">
+    <div class="summary-item">
+      <h3>Total Ads</h3>
+      <p id="total-ads">0</p>
+    </div>
+    <div class="summary-item">
+      <h3>Total Views</h3>
+      <p id="total-views">0</p>
+    </div>
+    <div class="summary-item">
+      <h3>Total Value</h3>
+      <p id="total-value">₹0</p>
+    </div>
+  </div>
+  
+            <div class="books-grid" id="my-books-container">
+                <!-- Books will be dynamically added here -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>BookSell is your trusted platform for buying and selling used books.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse Books</a>
+                <a href="post-ad.html">Sell Books</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 BookSell. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script/myads.js"></script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Books - Second Hand Books</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #fff;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a4a4a;
+        }
+        
+        .search-container {
+            display: flex;
+            margin: 20px 0;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        .search-input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        
+        .search-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .search-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .filter-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .sort-select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        
+        .book-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .book-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .book-details {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .book-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .book-author {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .book-price {
+            font-weight: bold;
+            color: #2ecc71;
+            margin-top: auto;
+            font-size: 18px;
+        }
+        
+        .book-actions {
+            display: flex;
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .view-button, .cart-button {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .view-button {
+            background-color: #f8f9fa;
+            color: #3498db;
+            margin-right: 5px;
+        }
+        
+        .cart-button {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .view-button:hover {
+            background-color: #eaecef;
+        }
+        
+        .cart-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 30px;
+            font-size: 18px;
+            color: #666;
+        }
+        
+        .loading {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+            
+            .book-image {
+                height: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">BookSell</div>
+            <div class="user-controls">
+                <span id="username"></span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by title, author, or ISBN...">
+            <button class="search-button" id="searchButton">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </div>
+        
+        <div class="filter-controls">
+            <select id="sortSelect" class="sort-select">
+                <option value="default">Sort by: Default</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="title-asc">Title: A to Z</option>
+                <option value="title-desc">Title: Z to A</option>
+            </select>
+        </div>
+        
+        <div id="booksGrid" class="books-grid">
+            <div class="loading">Loading books...</div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const sortSelect = document.getElementById('sortSelect');
+            const booksGrid = document.getElementById('booksGrid');
+            const username = document.getElementById('username');
+            
+            // Check if user is logged in
+            fetch('/get-session')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.loggedIn) {
+                        username.textContent = `Hello, ${data.phone_email}`;
+                    } else {
+                        username.textContent = 'Login / Signup';
+                        username.style.cursor = 'pointer';
+                        username.addEventListener('click', () => {
+                            window.location.href = '/login.html';
+                        });
+                    }
+                });
+            
+            // Load all books initially
+            loadBooks();
+            
+            // Add event listeners
+            searchButton.addEventListener('click', function() {
+                loadBooks(searchInput.value);
+            });
+            
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    loadBooks(searchInput.value);
+                }
+            });
+            
+            sortSelect.addEventListener('change', function() {
+                applySort();
+            });
+            
+            // Function to load books with optional search query
+            function loadBooks(query = '') {
+                booksGrid.innerHTML = '<div class="loading">Loading books...</div>';
+                
+                const url = query ? `/books?q=${encodeURIComponent(query)}` : '/api/books';
+                
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(books => {
+                        displayBooks(books);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching books:', error);
+                        booksGrid.innerHTML = '<div class="no-results">Error loading books. Please try again later.</div>';
+                    });
+            }
+            
+            // Function to display books
+            function displayBooks(books) {
+                if (books.length === 0) {
+                    booksGrid.innerHTML = '<div class="no-results">No books found. Try a different search.</div>';
+                    return;
+                }
+                
+                booksGrid.innerHTML = '';
+                
+                books.forEach(book => {
+                    const bookCard = document.createElement('div');
+                    bookCard.className = 'book-card';
+                    
+                    // Get the first image if available, otherwise use a placeholder
+                    const imageUrl = book.images && book.images.length > 0 
+                        ? `/${book.images[0]}` 
+                        : 'https://via.placeholder.com/200x300?text=No+Image';
+                    
+                    bookCard.innerHTML = `
+                        <img src="${imageUrl}" alt="${book.title}" class="book-image">
+                        <div class="book-details">
+                            <div class="book-title">${book.title}</div>
+                            <div class="book-author">${book.author || 'Unknown author'}</div>
+                            <div class="book-price">₹${book.price}</div>
+                        </div>
+                        <div class="book-actions">
+                            <button class="view-button" data-id="${book._id}">View Details</button>
+                            <button class="cart-button" data-id="${book._id}">Add to Cart</button>
+                        </div>
+                    `;
+                    
+                    booksGrid.appendChild(bookCard);
+                });
+                
+                // Add event listeners to buttons
+                document.querySelectorAll('.view-button').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const bookId = this.getAttribute('data-id');
+                        window.location.href = `/books/${bookId}`;
+                    });
+                });
+                
+                document.querySelectorAll('.cart-button').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const bookId = this.getAttribute('data-id');
+                        addToCart(bookId);
+                    });
+                });
+                
+                // Apply sorting if a sort option is selected
+                if (sortSelect.value !== 'default') {
+                    applySort();
+                }
+            }
+            
+            // Function to add a book to the cart
+            function addToCart(bookId) {
+                fetch(`/api/book/${bookId}`)
+                    .then(response => response.json())
+                    .then(book => {
+                        return fetch('/api/cart/add', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                title: book.title,
+                                price: book.price,
+                                image: book.images && book.images.length > 0 ? book.images[0] : null
+                            })
+                        });
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Book added to cart!');
+                        } else if (response.status === 401) {
+                            alert('Please log in to add items to your cart.');
+                            window.location.href = '/login.html';
+                        } else {
+                            throw new Error('Error adding to cart');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('There was an error adding the book to your cart.');
+                    });
+            }
+            
+            // Function to apply sort
+            function applySort() {
+                const books = Array.from(booksGrid.querySelectorAll('.book-card'));
+                const sortValue = sortSelect.value;
+                
+                books.sort((a, b) => {
+                    const titleA = a.querySelector('.book-title').textContent;
+                    const titleB = b.querySelector('.book-title').textContent;
+                    
+                    const priceA = parseFloat(a.querySelector('.book-price').textContent.replace('₹', ''));
+                    const priceB = parseFloat(b.querySelector('.book-price').textContent.replace('₹', ''));
+                    
+                    switch (sortValue) {
+                        case 'price-asc':
+                            return priceA - priceB;
+                        case 'price-desc':
+                            return priceB - priceA;
+                        case 'title-asc':
+                            return titleA.localeCompare(titleB);
+                        case 'title-desc':
+                            return titleB.localeCompare(titleA);
+                        default:
+                            return 0;
+                    }
+                });
+                
+                // Reappend sorted books
+                books.forEach(book => {
+                    booksGrid.appendChild(book);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

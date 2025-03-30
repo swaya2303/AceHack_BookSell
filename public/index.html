@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookSell - Your Online Bookstore</title>
+    <link rel="stylesheet" href="styles/style.css">
+     <!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="./index.html">
+              <h1>BookSell</h1>
+            </a>
+            <div class="nav-links">
+              <a href="./index.html">Home</a>
+              <a href="../books">Browse</a>
+              <a href="./post-ad.html">Sell</a>
+              <a href="./warehouse.html">Warehouse</a>
+            </div>
+            <div class="user-container">
+              <div id="cont" class="search-container">
+                <input id="search-books" type="text" placeholder="Search Books">
+                <img id="btn" src="https://dhruvv7115.github.io/HTML-CSS-COURSE/icons/search.svg" alt="search-icon">
+              </div>
+              <div id="dropdown">
+                <img src="./icons/profile_7310896.png" alt="user-image" id="profile" width="25">
+                <div id="dropdown-content" class="hidden">
+                    <div class="login-signup-link dropdown-item"><a href="login.html">Login/SignUp</a></div>
+                  <div class="dropdown-item item-with-icon">
+                    <img src="./icons/profile_7310896.png" alt="user" width="25">
+                    <a href="/profile.html">My Profile</a>
+                  </div>
+                  <div class="dropdown-item">
+                    <a href="/myads.html">My Books</a>
+                  </div>
+                  <div class="dropdown-item">
+                    <a href="/orders.html">My Orders</a>
+                  </div>
+                  <div class="dropdown-item">
+                    <a href="/selling-orders.html">My Selling Orders</a>
+                  </div>
+                  <div class="dropdown-item">
+                    <a href="/cart.html">My Cart</a>
+                  </div>
+                  <div class="dropdown-item">
+                    <a href="/wishlist.html">Wishlist</a>
+                  </div>
+                  <div class="dropdown-item">
+                    <a href="/how-it-works">How it Works?</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </nav>
+        <script>
+            const profile = document.getElementById('profile');
+            const dropdownContent = document.getElementById('dropdown-content');
+            profile.addEventListener('click', () => {
+                dropdownContent.classList.toggle('hidden');
+            })
+            const cont = document.querySelector('#cont');
+            const button = document.querySelector('#btn');
+            const input = document.querySelector('#search-books');
+            button.addEventListener('click', () => {
+                if(cont.classList.contains('active')){
+                    cont.classList.remove('active');
+                }else {
+                    cont.classList.add('active');
+                    input.focus();
+                }
+            });
+        </script>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Discover Your Next Favorite Book</h1>
+                <p>Buy and sell used books at the best prices</p>
+                <div class="hero-buttons">
+                    <button class="btn secondary">Browse Books</button>
+                    <a href="post-ad.html
+                    "><button class="btn secondary">Sell Your Books</button></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured">
+            <h2>Latest Book Ads</h2>
+            <div class="book-grid" id="ads-container"></div>
+        </section>
+        
+        <!-- Environmental Impact Dashboard -->
+        <section class="eco-dashboard">
+            <h2>Environmental Impact</h2>
+            <div class="eco-stats">
+                <div class="eco-stat">
+                    <i class="bi bi-book"></i>
+                    <div class="counter" id="books-saved">0</div>
+                    <p>Books Reused</p>
+                </div>
+                <div class="eco-stat">
+                    <i class="bi bi-tree"></i>
+                    <div class="counter" id="trees-saved">0</div>
+                    <p>Trees Preserved</p>
+                </div>
+                <div class="eco-stat">
+                    <i class="bi bi-water"></i>
+                    <div class="counter" id="water-saved">0</div>
+                    <p>Liters of Water Saved</p>
+                </div>
+            </div>
+            <div class="eco-delivery">
+                <h3>Eco-Friendly Delivery via India Post</h3>
+                <div class="delivery-process">
+                    <div class="delivery-step">
+                        <i class="bi bi-box-seam"></i>
+                        <p>Recycled Packaging</p>
+                    </div>
+                    <div class="delivery-step">
+                        <i class="bi bi-bicycle"></i>
+                        <p>Low-Carbon Transport</p>
+                    </div>
+                    <div class="delivery-step">
+                        <i class="bi bi-recycle"></i>
+                        <p>Carbon Offset Program</p>
+                    </div>
+                </div>
+                <p class="eco-note">India Post's delivery network optimizes routes to reduce carbon emissions. Each book shipped through our platform contributes to our tree planting initiative.</p>
+            </div>
+        </section>
+
+        <section class="featured">
+            <h2>Featured Books</h2>
+            <div class="book-grid" id="featured-books"></div>
+        </section>
+
+         <!-- Recommended Books Carousel -->
+         <section class="recommended">
+            <h2>Recommended For You</h2>
+            <div class="owl-carousel owl-theme" id="recommended-carousel">
+                <!-- Carousel items will be added by JavaScript -->
+            </div>
+        </section>
+
+        <section class="categories">
+            <h2>Popular Categories</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <i class="bi bi-book"></i>
+                    <h3>Academic</h3>
+                </div>
+                <div class="category-card">
+                    <i class="bi bi-journal-text"></i>
+                    <h3>Fiction</h3>
+                </div>
+                <div class="category-card">
+                    <i class="bi bi-lightbulb"></i>
+                    <h3>Self-Help</h3>
+                </div>
+                <div class="category-card">
+                    <i class="bi bi-globe"></i>
+                    <h3>History</h3>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3>Browse</h3>
+                    <p>Find your favorite books from our vast collection</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3>Purchase</h3>
+                    <p>Buy books at amazing prices</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3>Receive</h3>
+                    <p>Get books delivered to your doorstep</p>
+                </div>
+            </div>
+        </section>
+
+<script>
+        // Fetch books
+        async function fetchBooks(query = "") {
+          try {
+            let response = await fetch(`/books?q=${query}`);
+            let books = await response.json();
+            let bookContainer = document.getElementById("book-list");
+            bookContainer.innerHTML = ""; // Clear previous results
+      
+            books.forEach(book => {
+              let bookCard = `
+                <div class="col-md-3">
+                  <div class="card">
+                    <img src="${book.images[0] || 'default-book.jpg'}" class="card-img-top" alt="${book.title}">
+                    <div class="card-body">
+                      <h5 class="card-title">${book.title}</h5>
+                      <p class="card-text">₹${book.price}</p>
+                      <a href="book-details.html?id=${book._id}" class="btn btn-primary">View</a>
+                    </div>
+                  </div>
+                </div>
+              `;
+              bookContainer.innerHTML += bookCard;
+            });
+          } catch (error) {
+            console.error("Error loading books:", error);
+          }
+        }
+      
+        // Fetch books on page load
+        document.addEventListener("DOMContentLoaded", () => fetchBooks());
+      
+        // Search functionality
+        document.getElementById("search-form").addEventListener("submit", function (e) {
+          e.preventDefault();
+          let query = document.getElementById("search-input").value;
+          fetchBooks(query);
+        });
+</script>
+        <!-- Transaction Security Section -->
+        <section class="transaction-security">
+            <h2>Secure Transactions</h2>
+            <div class="security-features">
+                <div class="security-feature">
+                    <i class="bi bi-shield-lock"></i>
+                    <h3>Escrow Protection</h3>
+                    <p>Your payment is held securely until you confirm receipt</p>
+                </div>
+                <div class="security-feature">
+                    <i class="bi bi-check-circle"></i>
+                    <h3>Verification System</h3>
+                    <p>Confirm your book matches the description before payment release</p>
+                </div>
+                <div class="security-feature">
+                    <i class="bi bi-chat-dots"></i>
+                    <h3>Direct Communication</h3>
+                    <p>Chat with sellers to clarify any questions before purchase</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>booksell is your trusted platform for buying and selling used books.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#">Home</a>
+                <a href="#">Browse Books</a>
+                <a href="#">Sell Books</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 booksell. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script/script.js"></script>
+       <!-- javascript -->
+        <script>$(document).ready(function(){
+          $(".owl-carousel").owlCarousel();
+        });</script>
+       <script src="jquery.min.js"></script>
+       <script src="owlcarousel/owl.carousel.min.js"></script>
+        
+</body>
+</html>

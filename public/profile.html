@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | Clankart</title>
+  <link rel="stylesheet" href="styles/profile.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a href="/">
+            <img src="./logo.jpg" alt="BookSell Logo">
+          </a>
+        </div>
+        <div class="search-bar">
+          <form action="/search" method="get">
+            <input type="text" placeholder="Book Name / Author / Subject / Publisher" name="q">
+            <button type="submit"><i class="bi bi-search"></i></button>
+          </form>
+        </div>
+        <div class="header-actions">
+          <a href="post-ad.html" class="sell-btn">Sell Used Books</a>
+          <div class="account-menu">
+            <i class="bi bi-person"></i>
+            <span>My Account</span>
+          </div>
+          <a href="/cart" class="cart-icon">
+            <i class="bi bi-cart2"></i>
+            <span>Cart</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="profile-container">
+        <aside class="sidebar">
+          <div class="user-profile">
+            <div class="user-avatar">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <h3 class="welcome-text">Welcome!</h3>
+          </div>
+          <nav class="sidebar-nav">
+            <ul>
+              <li class="active">
+                <a href="/accounts/profile"><i class="bi bi-person"></i> My Profile</a>
+              </li>
+              <li>
+                <a href="/accounts/myads"><i class="bi bi-megaphone"></i> My Ads</a>
+              </li>
+              <li>
+                <a href="/accounts/myorders"><i class="bi bi-box-seam"></i> My Orders</a>
+              </li>
+              <li>
+                <a href="/accounts/mysellingorders"><i class="bi bi-piggy-bank"></i> My Selling Orders</a>
+              </li>
+              <li>
+                <a href="/accounts/mychats"><i class="bi bi-chat-dots"></i> My Chats</a>
+              </li>
+              <li>
+                <a href="/cart"><i class="bi bi-cart2"></i> Cart</a>
+              </li>
+              <li>
+                <a href="/accounts/wishlist"><i class="bi bi-heart"></i> Wishlist</a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+
+        <section class="main-content">
+          <div class="page-header">
+            <h1>My Profile</h1>
+          </div>
+
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="profile">
+              <i class="bi bi-person"></i> Change Profile
+            </button>
+            <button class="tab-btn" data-tab="password">
+              <i class="bi bi-key"></i> Change Password
+            </button>
+          </div>
+
+          <div class="tab-content">
+            <div id="profile-tab" class="tab-pane active">
+              <form id="profile-form">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <div class="input-with-icon">
+                    <i class="bi bi-person"></i>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <div class="input-with-icon">
+                    <i class="bi bi-envelope"></i>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="phone">Phone</label>
+                  <div class="input-with-icon">
+                    <i class="bi bi-telephone"></i>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <div class="input-with-icon textarea-icon">
+                    <i class="bi bi-geo-alt"></i>
+                    <textarea id="address" name="address" placeholder="Enter your address" required></textarea>
+                  </div>
+                </div>
+                
+                <button type="submit" class="btn-primary">Update Profile</button>
+              </form>
+            </div>
+
+            <!-- Inside <div class="tabs"> -->
+            <div class="tabs">
+              <button class="tab-btn active" data-tab="profile">
+                <i class="bi bi-person"></i> Change Profile
+              </button>
+              <button class="tab-btn" data-tab="password">
+                <i class="bi bi-key"></i> Change Password
+              </button>
+              <button class="tab-btn" data-tab="aadhaar">
+                <i class="bi bi-shield-check"></i> Aadhaar Verification
+              </button>
+            </div>
+
+            <!-- Inside <div class="tab-content"> -->
+            <div class="tab-content">
+              <!-- Existing profile-tab and password-tab remain unchanged -->
+              
+              <div id="aadhaar-tab" class="tab-pane">
+                <form id="aadhaar-form">
+                  <div class="form-group">
+                    <label for="aadhaar-number">Aadhaar Number / Virtual ID</label>
+                    <div class="input-with-icon">
+                      <i class="bi bi-card-text"></i>
+                      <input type="text" id="aadhaar-number" name="aadhaar-number" placeholder="Enter Aadhaar or Virtual ID" maxlength="12" required>
+                    </div>
+                    <small class="form-text">Enter your 12-digit Aadhaar number or Virtual ID. Only the last 4 digits will be stored.</small>
+                  </div>
+                  <div class="form-group">
+                    <label>Verification Status</label>
+                    <p id="aadhaar-status" class="text-muted">Not Verified</p>
+                  </div>
+                  <button type="submit" class="btn-primary" id="verify-aadhaar-btn">Verify Aadhaar</button>
+                </form>
+              </div>
+            </div>
+            
+            <div id="password-tab" class="tab-pane">
+              <form id="password-form">
+                <div class="form-group">
+                  <label for="current-password">Current Password</label>
+                  <div class="input-with-icon">
+                    <i class="bi bi-lock"></i>
+                    <input type="password" id="current-password" name="current-password" placeholder="Enter current password" required>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="new-password">New Password</label>
+                  <div class="input-with-icon">
+                    <i class="bi bi-lock"></i>
+                    <input type="password" id="new-password" name="new-password" placeholder="Enter new password" required>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="confirm-password">Confirm New Password</label>
+                  <div class="input-with-icon">
+                    <i class="bi bi-lock-fill"></i>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm new password" required>
+                  </div>
+                </div>
+                
+                <button type="submit" class="btn-primary">Update Password</button>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-column">
+          <h4>About Us</h4>
+          <ul>
+            <li><a href="/about-us">About Us</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+            <li><a href="/feedback">Leave Us Feedback</a></li>
+            <li><a href="/blog">Blog</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="/how-it-works">How it works?</a></li>
+            <li><a href="/teleport">Clankart Teleport</a></li>
+            <li><a href="/faq">Frequently Asked Questions</a></li>
+            <li><a href="/chat-guidelines">Chat Guidelines</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-column">
+          <h4>Stay Connected</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/clankart/" target="_blank"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/clankart/" target="_blank"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.youtube.com/@clankart" target="_blank"><i class="bi bi-youtube"></i></a>
+            <a href="https://twitter.com/clankartTeam" target="_blank"><i class="bi bi-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-middle">
+        <div class="feature">
+          <i class="bi bi-credit-card"></i>
+          <div>
+            <h5>Secure Payment</h5>
+            <p>100% Secure Online Transaction</p>
+          </div>
+        </div>
+        
+        <div class="feature">
+          <i class="bi bi-patch-check"></i>
+          <div>
+            <h5>Clankart Trust</h5>
+            <p>Money stored safely & transferred after buyer confirmation</p>
+          </div>
+        </div>
+        
+        <div class="feature">
+          <i class="bi bi-chat-dots"></i>
+          <div>
+            <h5>Customer Support</h5>
+            <p>Friendly customer support</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>Copyright © 2025, <b>Clankart™</b> All Rights Reserved</p>
+        <div class="payment-methods">
+          <img src="https://cdn.shopify.com/shopifycloud/shopify/assets/payment_icons/visa-319d545c6fd255c9aad5eeaad21fd6f7f7b4fdbdb1a35ce83b89cca12a187f00.svg" alt="Visa">
+          <img src="https://cdn.shopify.com/shopifycloud/shopify/assets/payment_icons/master-173035bc8124581983d4efa50cf8626e8553c2b311353fbf67485f9c1a2b88d1.svg" alt="Mastercard">
+          <img src="https://cdn.shopify.com/shopifycloud/shopify/assets/payment_icons/rupay-99a7d53d272a0e3c8b6e18b8b7c71e8e7c10379ae8d1dfb4d1a2c22df5a4b170.svg" alt="RuPay">
+          <img src="https://cdn.shopify.com/shopifycloud/shopify/assets/payment_icons/paytm-3e5dee0c0b4f2639d3b7f0b0f5934e2077b04b8eecd23afd0cb4505a81bd6b60.svg" alt="Paytm">
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script/profile.js"></script>
+</body>
+</html>
